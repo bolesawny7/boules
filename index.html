@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boules Marzouk — Software Engineer</title>
-<meta name="description" content="Boules Marzouk — software engineer in Cairo (platform, backend & full-stack), open to remote roles. CI/CD, Go, Ruby, C/C++, gRPC, React. Currently at Procore, previously Siemens.">
+<meta name="description" content="Boules Marzouk — software engineer in Cairo (platform, backend & full-stack), open to remote roles. CI/CD, Go, Ruby, C/C++, gRPC, React, agentic tooling (Claude Code, Cursor). Currently at Procore, previously Siemens.">
 <meta property="og:title" content="Boules Marzouk — Software Engineer">
 <meta property="og:description" content="Platform & systems engineer. From page faults to production. Procore · Siemens · Ain Shams CS.">
 <meta property="og:type" content="website">
@@ -653,7 +653,7 @@ var d=document.documentElement;d.setAttribute("data-theme",t);d.setAttribute("da
         <p class="roles rv" aria-label="Roles: platform, backend, full-stack, software engineer">
           <span class="r on">platform</span><span class="rsep"> · </span><span class="r">backend</span><span class="rsep"> · </span><span class="r">full-stack</span><span class="rsep"> · </span><span class="r">software</span>&nbsp;<span class="rw">engineer</span>
         </p>
-        <p class="lede rv">Software engineer at Procore, building the internal developer platform that 30+ engineering teams ship on. Before that: a year at Siemens on backend performance and gRPC.</p>
+        <p class="lede rv">Software engineer at Procore, building the internal developer platform that 30+ engineering teams ship on. Before that: a year at Siemens on backend performance and gRPC. Lately: tooling for the AI coding agents I pair with — Claude Code, Cursor — so context stays cheap and code stays in-house.</p>
         <p class="lede-sub rv">My favorite work sits close to the machine — CI systems, build tooling, memory managers. The first time a <code>malloc</code> I wrote from scratch actually worked, I was hooked. But I’m not tied to one layer: Go, Ruby, and C this year, React when the problem lives in the browser, whatever it takes next.</p>
         <div class="filecmd rv m-hex">
 <pre class="print"><span class="g">$</span> file ./boules
@@ -697,11 +697,14 @@ var d=document.documentElement;d.setAttribute("data-theme",t);d.setAttribute("da
           </div>
           <div>
             <h3>Internal Developer Platform</h3>
-            <p class="sum">I build and operate services on Procore’s internal developer platform: <b>Go</b> and <b>Ruby on Rails</b>, connecting <b>50+ systems</b> and serving <b>30+ engineering teams</b>.</p>
+            <p class="sum">I build and operate services on Procore’s internal developer platform: <b>Go</b> and <b>Ruby on Rails</b>, connecting <b>50+ systems</b> and serving <b>30+ engineering teams</b> — lately, the tooling that lets <b>AI coding agents</b> like Claude Code and Cursor ship on it too.</p>
             <ul class="facts">
               <li>Cut a service’s CI time from <b>10 minutes to 5</b> by moving repeated work into a shared, cached builder.</li>
               <li class="m-std">Redesigned CI failure alerting so teams are only paged for blocking failures; non-blocking noise goes to a separate low-noise channel.</li>
               <li class="m-std">Migrated Ruby dependency management to a single artifact registry (Artifactory), updating CI authentication and validating builds.</li>
+              <li>Engineered a cross-platform Node.js plugin for Claude Code and Cursor that reduced main-context token consumption by <b>46–99.8%</b> across benchmarked tasks by intercepting and redirecting large whole-file reads.</li>
+              <li>Architected a tiered enforcement and delegation system that routes bulk code analysis and boilerplate generation to lower-cost LLM subagents, ensuring proprietary source code remains strictly within enterprise boundaries without external APIs.</li>
+              <li>Hardened execution reliability by designing fail-open pre-read hooks to prevent workflow blocking, resolving CodeQL security vulnerabilities (TOCTOU file-system races and shell injections), and validating cross-environment behavior with <b>66 automated tests</b>.</li>
               <li>Serve on the global on-call rotation for enterprise CI/CD infrastructure.</li>
             </ul>
             <!-- recent platform work, deliberately generalized for a public page:
@@ -815,7 +818,7 @@ suites: generated &amp; passing — <span class="g">no manual edits</span></pre>
             <tr><th scope="row">data</th><td>PostgreSQL<span class="sep"> · </span>MySQL<span class="sep"> · </span>MongoDB<span class="sep"> · </span>Redis</td></tr>
             <tr><th scope="row">frontend</th><td>React<span class="sep"> · </span>Stencil<span class="sep"> · </span>Qt</td></tr>
             <tr><th scope="row">operations</th><td>Linux<span class="sep"> · </span>Docker<span class="sep"> · </span>AWS<span class="sep"> · </span>CI/CD<span class="sep"> · </span>Git</td></tr>
-            <tr><th scope="row">ai systems</th><td>LangGraph<span class="sep"> · </span>DSPy<span class="sep"> · </span>MCP<span class="sep"> · </span>agentic workflows<span class="sep"> · </span>LangSmith</td></tr>
+            <tr><th scope="row">ai systems</th><td>LangGraph<span class="sep"> · </span>DSPy<span class="sep"> · </span>MCP<span class="sep"> · </span>agentic workflows<span class="sep"> · </span>LangSmith<span class="sep"> · </span>Claude Code<span class="sep"> · </span>Cursor<span class="sep"> · </span>context engineering</td></tr>
           </tbody>
         </table>
         <p class="practice rv"><b>400+</b> algorithm problems solved on LeetCode and Codeforces.</p>
