@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boules Marzouk — Software Engineer</title>
-<meta name="description" content="Boules Marzouk — software engineer in Cairo (platform, backend & full-stack), open to remote roles. CI/CD, Go, Ruby, C/C++, gRPC, React, agentic tooling (Claude Code, Cursor). Currently at Procore, previously Siemens.">
+<meta name="description" content="Boules Marzouk — software engineer in Cairo (platform, backend & full-stack), open to remote roles. CI/CD, Go, Ruby, C/C++, gRPC, React, agentic tooling (Claude Code, Cursor), and maat, confined AI diagnostics for Ubuntu. Currently at Procore, previously Siemens.">
 <meta property="og:title" content="Boules Marzouk — Software Engineer">
 <meta property="og:description" content="Platform & systems engineer. From page faults to production. Procore · Siemens · Ain Shams CS.">
 <meta property="og:type" content="website">
@@ -653,7 +653,7 @@ var d=document.documentElement;d.setAttribute("data-theme",t);d.setAttribute("da
         <p class="roles rv" aria-label="Roles: platform, backend, full-stack, software engineer">
           <span class="r on">platform</span><span class="rsep"> · </span><span class="r">backend</span><span class="rsep"> · </span><span class="r">full-stack</span><span class="rsep"> · </span><span class="r">software</span>&nbsp;<span class="rw">engineer</span>
         </p>
-        <p class="lede rv">Software engineer at Procore, building the internal developer platform that 30+ engineering teams ship on. Before that: a year at Siemens on backend performance and gRPC. Lately: tooling for the AI coding agents I pair with — Claude Code, Cursor — so context stays cheap and code stays in-house.</p>
+        <p class="lede rv">Software engineer at Procore, building the internal developer platform that 30+ engineering teams ship on. Before that: a year at Siemens on backend performance and gRPC. Lately: tooling for the AI coding agents I pair with — Claude Code, Cursor — so context stays cheap and code stays in-house. Outside work, I build <a href="#data">maat</a>: AI agents that can diagnose an Ubuntu machine, but not change it.</p>
         <p class="lede-sub rv">My favorite work sits close to the machine — CI systems, build tooling, memory managers. The first time a <code>malloc</code> I wrote from scratch actually worked, I was hooked. But I’m not tied to one layer: Go, Ruby, and C this year, React when the problem lives in the browser, whatever it takes next.</p>
         <div class="filecmd rv m-hex">
 <pre class="print"><span class="g">$</span> file ./boules
@@ -759,6 +759,32 @@ var d=document.documentElement;d.setAttribute("data-theme",t);d.setAttribute("da
         </header>
 
         <article class="proj rv">
+          <span class="tagline">go · open source · snap store (edge)</span>
+          <h3><a href="https://github.com/bolesawny7/maat" target="_blank" rel="noopener">maat</a></h3>
+          <p>An open-source MCP server that lets AI agents troubleshoot Ubuntu machines without being able to change them. It runs in a <b>strictly confined snap</b> with read-only interfaces and no network access, so the limits come from the kernel, not the prompt. The model can only propose a typed fix; a person applies it through <b>polkit</b> with a separate tool, and every step lands in a hash-chained audit trail. One agent can also reach many hosts over SSH, with a key that can only start the confined server.</p>
+<pre class="print flow">agent → maat mcp  (strict snap, no network)
+      → propose_action → typed plan + evidence
+      → maatctl apply → polkit → systemd → verified
+      → hash-chained audit trail</pre>
+          <p>Its self-test, run inside the snap on Ubuntu 24.04:</p>
+<pre class="print coverage"><span class="g">$</span> maat selftest
+<span class="g">[PASS]</span> not_root
+<span class="g">[PASS]</span> journal_readable
+<span class="g">[PASS]</span> units_listable          listed 417 units
+<span class="g">[PASS]</span> network_blocked         permission denied
+<span class="g">[PASS]</span> home_write_blocked      write refused
+<span class="g">[PASS]</span> systemd_control_denied  refused by AppArmor
+6 passed, 0 failed, 3 informational
+<span class="c">// the kernel says no, not the model</span></pre>
+          <p>Testing the confinement changed the design twice: <code>network-observe</code> turned out to allow outbound connections, so maat leaves it out (I’ve sent the docs fix upstream), and a socket tool that silently reported “no sockets” now fails closed. The repo also ships <b>maat-bench</b>, including a benchmark of whether AI SRE agents follow instructions planted in a Kubernetes cluster.</p>
+          <p class="stackline"><span class="k">stack:</span> Go · MCP · snapcraft · AppArmor · systemd / D-Bus · polkit · LXD · k3s</p>
+          <div class="projlinks">
+            <a href="https://github.com/bolesawny7/maat" target="_blank" rel="noopener">source on github</a>
+            <a href="https://github.com/canonical/snap-docs/pull/679" target="_blank" rel="noopener">upstream docs fix</a>
+          </div>
+        </article>
+
+        <article class="proj rv">
           <span class="tagline">sponsored by Siemens · open source</span>
           <h3><a href="https://github.com/galal-muhammed/AI-Assisted-Agentic-Testing-System" target="_blank" rel="noopener">AI-Assisted Agentic Testing System</a></h3>
           <p>Sponsored by Siemens, it’s a VS Code extension that generates, runs, and repairs UI tests. A LangGraph orchestrator routes each request to one of four specialized agents — requirements analysis, unit testing, integration testing, and TDD — which work on the codebase through <b>Model Context Protocol</b> tools and safe TypeScript AST edits. Every generated suite is validated in a sandboxed Playwright + Jest run, and DSPy handles prompt optimization.</p>
@@ -817,7 +843,7 @@ suites: generated &amp; passing — <span class="g">no manual edits</span></pre>
             <tr><th scope="row">messaging</th><td>Kafka<span class="sep"> · </span>AWS SNS / SQS</td></tr>
             <tr><th scope="row">data</th><td>PostgreSQL<span class="sep"> · </span>MySQL<span class="sep"> · </span>MongoDB<span class="sep"> · </span>Redis</td></tr>
             <tr><th scope="row">frontend</th><td>React<span class="sep"> · </span>Stencil<span class="sep"> · </span>Qt</td></tr>
-            <tr><th scope="row">operations</th><td>Linux<span class="sep"> · </span>Docker<span class="sep"> · </span>AWS<span class="sep"> · </span>CI/CD<span class="sep"> · </span>Git</td></tr>
+            <tr><th scope="row">operations</th><td>Linux<span class="sep"> · </span>snap packaging &amp; confinement<span class="sep"> · </span>AppArmor<span class="sep"> · </span>systemd<span class="sep"> · </span>polkit<span class="sep"> · </span>Docker<span class="sep"> · </span>AWS<span class="sep"> · </span>CI/CD<span class="sep"> · </span>Git</td></tr>
             <tr><th scope="row">ai systems</th><td>LangGraph<span class="sep"> · </span>DSPy<span class="sep"> · </span>MCP<span class="sep"> · </span>agentic workflows<span class="sep"> · </span>LangSmith<span class="sep"> · </span>Claude Code<span class="sep"> · </span>Cursor<span class="sep"> · </span>context engineering</td></tr>
           </tbody>
         </table>
