@@ -624,6 +624,7 @@ var d=document.documentElement;d.setAttribute("data-theme",t);d.setAttribute("da
       <li><a href="#init"   data-sec="init"><span class="pcmark">▸</span><span class="addr" data-v="0x0000">0x0000</span><span class="seg">.init</span><span class="lbl">about</span></a></li>
       <li><a href="#text"   data-sec="text"><span class="pcmark">▸</span><span class="addr" data-v="0x1000">0x1000</span><span class="seg">.text</span><span class="lbl">experience</span></a></li>
       <li><a href="#data"   data-sec="data"><span class="pcmark">▸</span><span class="addr" data-v="0x4000">0x4000</span><span class="seg">.data</span><span class="lbl">projects</span></a></li>
+      <li><a href="#dynamic" data-sec="dynamic"><span class="pcmark">▸</span><span class="addr" data-v="0x6000">0x6000</span><span class="seg">.dynamic</span><span class="lbl">open source</span></a></li>
       <li><a href="#rodata" data-sec="rodata"><span class="pcmark">▸</span><span class="addr" data-v="0x8000">0x8000</span><span class="seg">.rodata</span><span class="lbl">skills</span></a></li>
       <li><a href="#bss"    data-sec="bss"><span class="pcmark">▸</span><span class="addr" data-v="0xB000">0xB000</span><span class="seg">.bss</span><span class="lbl">education</span></a></li>
       <li><a href="#comment" data-sec="comment"><span class="pcmark">▸</span><span class="addr" data-v="0xC000">0xC000</span><span class="seg">.comment</span><span class="lbl">notes</span></a></li>
@@ -731,7 +732,7 @@ var d=document.documentElement;d.setAttribute("data-theme",t);d.setAttribute("da
             <p class="sum">Backend work on large-scale industrial software: performance, gRPC service design, and production support for enterprise customers.</p>
             <ul class="facts">
               <li>Refactored a critical backend API and cut its execution time by <b>80%</b>.</li>
-              <li>Helped design the gRPC contracts that connect <b>10+ internal services</b>.</li>
+              <li>Helped design the gRPC contracts that connect <b>30+ internal services</b>.</li>
               <li>Built an internal debugging tool still used by <b>40+ engineers</b>; it cut issue-resolution time by about <b>30%</b>.</li>
               <li>Handled production incidents for two major enterprise accounts, resolving <b>90%</b> within SLA.</li>
             </ul>
@@ -776,11 +777,11 @@ var d=document.documentElement;d.setAttribute("data-theme",t);d.setAttribute("da
 <span class="g">[PASS]</span> systemd_control_denied  refused by AppArmor
 6 passed, 0 failed, 3 informational
 <span class="c">// the kernel says no, not the model</span></pre>
-          <p>Testing the confinement changed the design twice: <code>network-observe</code> turned out to allow outbound connections, so maat leaves it out (I’ve sent the docs fix upstream), and a socket tool that silently reported “no sockets” now fails closed. The repo also ships <b>maat-bench</b>, including a benchmark of whether AI SRE agents follow instructions planted in a Kubernetes cluster.</p>
+          <p>Testing the confinement changed the design twice: <code>network-observe</code> turned out to allow outbound connections, so maat leaves it out (the docs fix is now <a href="#dynamic">merged upstream</a>), and a socket tool that silently reported “no sockets” now fails closed. The repo also ships <b>maat-bench</b>, including a benchmark of whether AI SRE agents follow instructions planted in a Kubernetes cluster.</p>
           <p class="stackline"><span class="k">stack:</span> Go · MCP · snapcraft · AppArmor · systemd / D-Bus · polkit · LXD · k3s</p>
           <div class="projlinks">
             <a href="https://github.com/bolesawny7/maat" target="_blank" rel="noopener">source on github</a>
-            <a href="https://github.com/canonical/snap-docs/pull/679" target="_blank" rel="noopener">upstream docs fix</a>
+            <a href="https://github.com/canonical/snap-docs/pull/679" target="_blank" rel="noopener">upstream docs fix (merged)</a>
             <a href="https://discourse.ubuntu.com/t/maat-ai-diagnostics-for-ubuntu-inside-a-strict-snap-and-three-questions-about-interfaces/90856" target="_blank" rel="noopener">discussion on ubuntu discourse</a>
           </div>
         </article>
@@ -824,6 +825,47 @@ suites: generated &amp; passing — <span class="g">no manual edits</span></pre>
             <li><a href="https://github.com/bolesawny7/E-Commerce-Backend" target="_blank" rel="noopener"><span>e-commerce-backend/</span><span class="d">Node.js · e-commerce REST backend</span><span class="arrow">↗</span></a></li>
             <li><a href="https://github.com/bolesawny7/CoursesManager" target="_blank" rel="noopener"><span>courses-manager/</span><span class="d">Node.js + Express + MongoDB · CRUD API</span><span class="arrow">↗</span></a></li>
             <li><a href="https://github.com/bolesawny7/PythonSecurity" target="_blank" rel="noopener"><span>python-security/</span><span class="d">security experiments</span><span class="arrow">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 0x6000 .dynamic ============ -->
+    <section class="sec" id="dynamic">
+      <div class="inner">
+        <header class="shead rv">
+          <div class="row"><span class="addr">0x6000</span><span class="seg">.dynamic</span><span class="note">// links into code I don’t own</span></div>
+          <h2>Open source</h2>
+        </header>
+
+        <article class="proj rv">
+          <span class="tagline">upstream · canonical/snap-docs · merged nov 2026</span>
+          <h3><a href="https://github.com/canonical/snap-docs/pull/679" target="_blank" rel="noopener">What network-observe really allows</a></h3>
+          <p>While confining maat, I found that snapd’s <code>network-observe</code> interface, documented as read-only, still lets a snap open TCP and UDP connections and raw sockets for <code>ping</code>. I traced it to the interface’s AppArmor policy in snapd’s source and confirmed it on Ubuntu 24.04 with snapd 2.76: with the interface connected, an outbound connection from a strict snap works; without it, it’s refused. I reported it, sent the docs fix, and it was reviewed and merged into the snap documentation.</p>
+<pre class="print">network-observe-interface.md
+<span class="g">+</span> 'Read-only access' means the snap can't
+<span class="g">+</span> change network settings. It can still open
+<span class="g">+</span> TCP and UDP connections, through the
+<span class="g">+</span> name-resolution rules the interface
+<span class="g">+</span> includes, and raw sockets for ping. A snap
+<span class="g">+</span> with network-observe connected can therefore
+<span class="g">+</span> reach the network even without the network
+<span class="g">+</span> interface.
+<span class="c">// merged as 4b40068 · closes #661</span></pre>
+          <div class="projlinks">
+            <a href="https://github.com/canonical/snap-docs/pull/679" target="_blank" rel="noopener">pull request #679</a>
+            <a href="https://github.com/canonical/snap-docs/issues/661" target="_blank" rel="noopener">issue #661</a>
+          </div>
+        </article>
+
+        <div class="rv">
+          <p class="lslabel"><span class="m-hex"><span class="g">$</span> ls ./upstream <span aria-hidden="true">—</span> contributions &amp; community</span><span class="m-std">Contributions &amp; community</span></p>
+          <!-- to add a contribution, copy a row -->
+          <ul class="ls">
+            <li><a href="https://github.com/canonical/snap-docs/pull/679" target="_blank" rel="noopener"><span>canonical/snap-docs#679</span><span class="d">docs fix · merged</span><span class="arrow">↗</span></a></li>
+            <li><a href="https://github.com/canonical/snap-docs/issues/661" target="_blank" rel="noopener"><span>canonical/snap-docs#661</span><span class="d">bug report · closed by #679</span><span class="arrow">↗</span></a></li>
+            <li><a href="https://discourse.ubuntu.com/t/maat-ai-diagnostics-for-ubuntu-inside-a-strict-snap-and-three-questions-about-interfaces/90856" target="_blank" rel="noopener"><span>discourse.ubuntu.com</span><span class="d">maat’s design, and open questions on snap interfaces</span><span class="arrow">↗</span></a></li>
+            <li><a href="https://snapcraft.io/maat" target="_blank" rel="noopener"><span>snapcraft.io/maat</span><span class="d">published snap · amd64 + arm64</span><span class="arrow">↗</span></a></li>
           </ul>
         </div>
       </div>
@@ -983,6 +1025,7 @@ queue: threads-and-scheduling · communication-patterns · resilience
     <li><a href="#init"><span class="pcmark">▸</span><span class="addr">0x0000</span><span class="seg">.init</span><span class="lbl">hello</span></a></li>
     <li><a href="#text"><span class="pcmark">▸</span><span class="addr">0x1000</span><span class="seg">.text</span><span class="lbl">experience</span></a></li>
     <li><a href="#data"><span class="pcmark">▸</span><span class="addr">0x4000</span><span class="seg">.data</span><span class="lbl">projects</span></a></li>
+    <li><a href="#dynamic"><span class="pcmark">▸</span><span class="addr">0x6000</span><span class="seg">.dynamic</span><span class="lbl">open source</span></a></li>
     <li><a href="#rodata"><span class="pcmark">▸</span><span class="addr">0x8000</span><span class="seg">.rodata</span><span class="lbl">skills</span></a></li>
     <li><a href="#bss"><span class="pcmark">▸</span><span class="addr">0xB000</span><span class="seg">.bss</span><span class="lbl">education</span></a></li>
     <li><a href="#comment"><span class="pcmark">▸</span><span class="addr">0xC000</span><span class="seg">.comment</span><span class="lbl">notes</span></a></li>
@@ -1245,6 +1288,7 @@ queue: threads-and-scheduling · communication-patterns · resilience
     init:"init", home:"init", hello:"init", about:"init",
     text:"text", experience:"text", exp:"text",
     data:"data", projects:"data", work:"data",
+    dynamic:"dynamic", opensource:"dynamic", "open-source":"dynamic", oss:"dynamic", upstream:"dynamic",
     rodata:"rodata", skills:"rodata",
     bss:"bss", education:"bss", edu:"bss",
     comment:"comment", notes:"comment", writing:"comment",
@@ -1274,9 +1318,9 @@ queue: threads-and-scheduling · communication-patterns · resilience
         tline("you — a person of taste. you found the shell.", "dim");
         break;
       case "pwd": tline("/home/boules/portfolio"); break;
-      case "ls": tline(".init/  .text/  .data/  .rodata/  .bss/  .comment/  .stack/"); break;
+      case "ls": tline(".init/  .text/  .data/  .dynamic/  .rodata/  .bss/  .comment/  .stack/"); break;
       case "cd":
-        if (!goSec(arg)) tline("cd: " + (arg || "~") + ": try .init .text .data .rodata .bss .comment .stack", "err");
+        if (!goSec(arg)) tline("cd: " + (arg || "~") + ": try .init .text .data .dynamic .rodata .bss .comment .stack", "err");
         else tline("→ " + arg, "dim");
         break;
       case "cat":
